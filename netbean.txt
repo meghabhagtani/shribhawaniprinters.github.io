@@ -1,0 +1,65 @@
+<%@page import="java.sql.*,java.util.*"%>
+        <%
+           
+           
+           String u=(String)session.getAttribute("uname");
+           out.print(u);
+           String driver="com.mysql.jdbc.Driver";
+           String connectionUrl="jdbc:mysql://localhost:3306/";
+           String database="miniproject1";
+           String userid="root";
+           String password="pratibhamom";
+           
+
+           try{
+               Class.forName(driver);
+               
+           }
+           catch(ClassNotFoundException e){
+               e.printStackTrace();
+               
+           }
+           Connection connection=null;
+           Statement statement=null;
+           ResultSet resultSet=null;
+           out.print("hi");
+           
+
+       %>
+       <%
+                try{
+                    connection=DriverManager.getConnection(connectionUrl+database,userid,password);
+                    statement=connection.createStatement();
+                    String sql="select * from register where userid="+u;
+                    
+                    resultSet=statement.executeQuery(sql);
+                    out.print("hi");
+                    while(resultSet.next()){
+                    %> 
+                    <h1>Update data from database in jsp</h1>
+                    <form action="update_process.jsp" method="POST">
+                        <input type="hidden" name="userid1" value="<%=resultSet.getString("userid")%>" /><br>
+                        <input type="text" name="userid2" value="<%=resultSet.getString("userid")%>" /><br>
+                        name:<input type="text" name="name" value="<%=resultSet.getString("name")%>" /><br>
+                        gender:<input type="text" name="gender" value="<%=resultSet.getString("gender")%>" /><br>
+                        date:<input type="text" name="date" value="<%=resultSet.getString("date")%>" /><br>
+                        address:<input type="text" name="address" value="<%=resultSet.getString("address")%>" /><br>
+                        mobile number:<input type="text" name="mobile_number" value="<%=resultSet.getString("mobile_number")%>" /><br>
+                        city:<input type="text" name="city" value="<%=resultSet.getString("city")%>" /><br>
+                        course:<input type="text" name="course" value="<%=resultSet.getString("course")%>" /><br>
+                        userid:<input type="text" name="userid" value="<%=resultSet.getString("userid")%>" /><br>
+                        password:<input type="text" name="password" value="<%=resultSet.getString("password")%>" /><br>
+                        <br><br>
+                        <input type="submit" value="submit" />
+                        
+                    </form>
+                        <%
+                            }
+                            connection.close();
+                            
+                            }
+                            catch(Exception e){
+                            e.printStackTrace();
+                            }
+                        %>
+            
